@@ -2,4 +2,5 @@
     <string name="app_name">FirstAndroidWorkshop</string>
     <string name="start">Start</string>
     <string name="titlestartscreen">Guessing Game</string>
+    <string name="directions">Choose a number between 1 and 100. \nYou have 5 guesses to try and guess the number i have generated. \nHave fun and good luck.</string>
 </resources>
