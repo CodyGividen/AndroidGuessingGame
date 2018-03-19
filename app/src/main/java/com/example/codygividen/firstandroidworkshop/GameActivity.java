@@ -14,7 +14,7 @@ public class GameActivity extends AppCompatActivity {
     private Button guessButton;
     private EditText guess;
     private int randonumber;
-    private int numberOfGuess;
+    private int numberOfGuess = 0;
     private final int MAX_GUESS_COUNT = 4;
 
     @Override
@@ -37,46 +37,49 @@ public class GameActivity extends AppCompatActivity {
         guess.setText("");
     }
 
-    private void setListener(){
+    private void setListener() {
         guessButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int userGuess = Integer.parseInt(guess.getText().toString());
-                if(userGuess > 100) {
+                if (userGuess > 100) {
                     clueTextView.setText(R.string.invalid_number_message);
                     clueTextView.setVisibility(View.VISIBLE);
                     guess.setText("");
-                }else {
+                } else {
                     checkGuess(userGuess);
                 }
 
             }
         });
     }
-    private void checkGuess(int userGuess){
 
-        if (userGuess > randonumber) {
-            clueTextView.setText("your number is to high");
-            numberOfGuess = (numberOfGuess + 1);
-            clueTextView.setVisibility(View.VISIBLE);
-            guess.setText("");
-        } else if (userGuess < randonumber) {
-            clueTextView.setText("Your number is too low!");
-            numberOfGuess = (numberOfGuess + 1);
-            clueTextView.setVisibility(View.VISIBLE);
-            guess.setText("");
-        } else if (userGuess == randonumber) {
+    private void checkGuess(int userGuess) {
+        if (userGuess == randonumber) {
             //TODO -create intent to go to winning activity - handle winning
             Intent winner = new Intent(this, ResultsActivity.class);
             startActivity(winner);
-        }else if (numberOfGuess == MAX_GUESS_COUNT){
+        } else if (numberOfGuess == MAX_GUESS_COUNT) {
             Intent loser = new Intent(this, ResultsActivity.class);
             loser.putExtra("WINNING_NUMBER", randonumber);
             startActivity(loser);
             //TODO -create intent to go to winning activity - handle out of chances
+        } else if (userGuess > randonumber) {
+            clueTextView.setText("your number is to high");
+            numberOfGuess++;
+            clueTextView.setVisibility(View.VISIBLE);
+            guess.setText("");
+        } else if (userGuess < randonumber)
+
+        {
+            clueTextView.setText("Your number is too low!");
+            numberOfGuess++;
+            clueTextView.setVisibility(View.VISIBLE);
+            guess.setText("");
+
         }
     }
-    @Override
-    public void onBackPressed() {
-    }
+        @Override
+        public void onBackPressed(){
+        }
 }
