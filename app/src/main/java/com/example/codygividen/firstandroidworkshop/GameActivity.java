@@ -1,5 +1,6 @@
 package com.example.codygividen.firstandroidworkshop;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +14,7 @@ public class GameActivity extends AppCompatActivity {
     private Button guessButton;
     private EditText guess;
     private int randonumber;
-    private int numberOfGuess = 0;
+    private int numberOfGuess;
     private final int MAX_GUESS_COUNT = 4;
 
     @Override
@@ -31,6 +32,9 @@ public class GameActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         randonumber = (int) Math.ceil(Math.random() * 100);
+        numberOfGuess = 0;
+        clueTextView.setVisibility(View.INVISIBLE);
+        guess.setText("");
     }
 
     private void setListener(){
@@ -63,7 +67,12 @@ public class GameActivity extends AppCompatActivity {
             guess.setText("");
         } else if (userGuess == randonumber) {
             //TODO -create intent to go to winning activity - handle winning
-        }else if (userGuess == MAX_GUESS_COUNT){
+            Intent winner = new Intent(this, ResultsActivity.class);
+            startActivity(winner);
+        }else if (numberOfGuess == MAX_GUESS_COUNT){
+            Intent loser = new Intent(this, ResultsActivity.class);
+            loser.putExtra("WINNING_NUMBER", randonumber);
+            startActivity(loser);
             //TODO -create intent to go to winning activity - handle out of chances
         }
     }

@@ -10,7 +10,8 @@
     <string name="submit">Submit</string>
     <string name="guess_a_number">Guess A Number</string>
     <string name="_1_100">1-100</string>
-    <string name="winning_number">The winning number was %1$i</string>
+    <string name="winning_number">The winning number was %1$d</string>
     <string name="you_win">You Win!!!!!</string>
     <string name="button">PLAY AGAIN</string>
+    <string name="you_lost">You Lost!</string>
 </resources>
