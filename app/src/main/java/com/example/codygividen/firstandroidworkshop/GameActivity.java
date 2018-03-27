@@ -8,11 +8,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class GameActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-    private TextView clueTextView;
-    private Button guessButton;
-    private EditText guess;
+public class GameActivity extends AppCompatActivity {
+    @BindView(R.id.clue_textView)
+    protected TextView clueTextView;
+    @BindView(R.id.guess_edittext)
+    protected EditText guess;
+
     private int randonumber;
     private int numberOfGuess = 0;
     private final int MAX_GUESS_COUNT = 4;
@@ -21,11 +26,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
-        clueTextView = findViewById(R.id.clue_textView);
-        guessButton = findViewById(R.id.submit_guess_button);
-        guess = findViewById(R.id.guess_edittext);
-        setListener();
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -36,11 +37,8 @@ public class GameActivity extends AppCompatActivity {
         clueTextView.setVisibility(View.INVISIBLE);
         guess.setText("");
     }
-
-    private void setListener() {
-        guessButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @OnClick(R.id.submit_guess_button)
+    protected void validateGuess() {
                 int userGuess = Integer.parseInt(guess.getText().toString());
                 if (userGuess > 100) {
                     clueTextView.setText(R.string.invalid_number_message);
@@ -51,19 +49,15 @@ public class GameActivity extends AppCompatActivity {
                 }
 
             }
-        });
-    }
 
     private void checkGuess(int userGuess) {
         if (userGuess == randonumber) {
-            //TODO -create intent to go to winning activity - handle winning
             Intent winner = new Intent(this, ResultsActivity.class);
             startActivity(winner);
         } else if (numberOfGuess == MAX_GUESS_COUNT) {
             Intent loser = new Intent(this, ResultsActivity.class);
             loser.putExtra("WINNING_NUMBER", randonumber);
             startActivity(loser);
-            //TODO -create intent to go to winning activity - handle out of chances
         } else if (userGuess > randonumber) {
             clueTextView.setText("your number is to high");
             numberOfGuess++;
